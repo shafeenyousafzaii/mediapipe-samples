@@ -39,9 +39,15 @@ class InferenceModel private constructor(context: Context) {
     fun generateResponseAsync(prompt: String) {
         llmInference.generateResponseAsync(prompt)
     }
+    private fun removeTags(input: String): String {
+        return input.replace(Regex("<start_of_turn>|</start_of_turn>|\\*\\*"), " ")
+            .replace(Regex("\\s+"), " ")
+            .trim()
+    }
+
 
     companion object {
-        private const val MODEL_PATH = "/data/local/tmp/llm/model.bin"
+        private const val MODEL_PATH = "/data/local/tmp/gemma_cpu.bin"
         private var instance: InferenceModel? = null
 
         fun getInstance(context: Context): InferenceModel {
